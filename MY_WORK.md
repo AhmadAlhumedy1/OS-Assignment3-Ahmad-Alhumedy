@@ -132,55 +132,81 @@
 
 ## Your Development Log
 
-### Entry 1 - [Date and Time]
-**What I did**:
+### Entry 1 - [November 11, 2026, 4:45 PM]
 
-**Details**:
+**What I did**: Set my student ID, ran the original starter code, and analyzed the concurrency issues in the ready queue.
 
-**Challenges**:
+**Details**: 
+Updated the student ID to 446052673 in SchedulerSimulationSync.java to seed the random generator uniquely.
 
-**Solution**:
+Analyzed the behavior of RaceWindow.pause() and how it triggers race conditions between reading and removing items from the queue.
 
-**Time spent**:
+**Challenges**: Understanding why multiple CPU threads could read the same head of the queue simultaneously.
 
----
+**Solution**: Reviewed Chapter 5 synchronization concepts and planned the implementation of ReentrantLock (queueLock) for ReadyQueue.
 
-### Entry 2 - [Date and Time]
-**What I did**:
-
-**Details**:
-
-**Challenges**:
-
-**Solution**:
-
-**Time spent**:
+**Time spent**: 40 minutes
 
 ---
 
-### Entry 3 - [Date and Time]
-**What I did**:
+### Entry 2 - [November 11, 2026, 5:15 PM]
 
-**Details**:
+**What I did**: Started the project and implemented Feature 1 to protect the ready queue.
 
-**Challenges**:
+**Details**: 
+Set my student ID and ran the starter code to test the multi-CPU scheduler.
 
-**Solution**:
+Successfully applied Feature 1 by adding a ReentrantLock to the ReadyQueue to prevent race conditions when multiple CPUs access the queue.
 
-**Time spent**:
+Committed and pushed: Feature 1: Added ReentrantLock to ReadyQueue
+
+**Challenges**: Understanding how multiple CPU threads conflict when reading the queue at the same time.
+
+**Solution**: Used ReentrantLock with try-finally blocks to make queue operations thread-safe.
+
+**Time spent**: 20 minutes
 
 ---
 
-### Entry 4 - [Date and Time]
-**What I did**:
+### Entry 3 - [November 11, 2026, 5:50 PM]
+
+**What I did**: Implemented Feature 2 to protect the shared statistics counters.
 
 **Details**:
+Applied Feature 2 by adding  ReentrantLock instances inside SharedStats (contextSwitchLock, completedProcessLock, totalServiceTimeLock).
 
-**Challenges**:
+Protected all update and read methods so that multiple CPU threads can update counters safely without losing data.
 
-**Solution**:
+Committed and pushed: Feature 2: Added locks to shared statistics counters
 
-**Time spent**:
+**Challenges**: Deciding whether to use one global lock or multiple locks for the statistics.
+
+**Solution**: Chose one lock per variable to allow better concurrency and reduce lock contention between threads.
+
+**Time spent**: 25 minutes
+
+---
+
+### Entry 4 - [November 11, 2026, 6:15 PM]
+
+**What I did**: Implemented Feature 3 using a counting semaphore to eliminate busy waiting.
+
+**Details**:
+Applied Feature 3 by adding a counting Semaphore (readySemaphore) to the ready queue and CPU workers.
+
+Replaced the CPU busy-waiting polling loop (Thread.sleep) with blocking acquire() calls.
+
+Added clean shutdown logic (releaseShutdown) so all CPU threads terminate properly when all processes finish.
+
+Verified that all four checkmarks passed and busy-waiting polls equaled zero.
+
+Committed and pushed: Feature 3: Replaced busy waiting with a counting semaphore
+
+**Challenges**: Preventing CPU threads from waiting forever on the semaphore after all processes finished.
+
+**Solution**: Implemented a clean shutdown mechanism that wakes up waiting threads upon completion of the last process.
+
+**Time spent**: 20 minutes
 
 ---
 
