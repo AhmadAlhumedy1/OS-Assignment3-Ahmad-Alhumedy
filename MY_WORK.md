@@ -211,15 +211,16 @@ Committed and pushed: Feature 3: Replaced busy waiting with a counting semaphore
 ---
 
 ### Entry 5 - [Date and Time]
-**What I did**:
+**What I did**: Completed Part B (Reflection), Part C (Technical Answers) .
 
-**Details**:
+**Details**: Added the verification blocks from both my original starter run and my final fixed version 
+using my student ID (446052673) and explained the race conditions, lock granularity, semaphores, and deadlock concepts.
 
-**Challenges**:
+**Challenges**: Making sure my answers followed the required sentence limits while explaining my specific simulation results and timelines.
 
-**Solution**:
+**Solution**: Reviewed my code implementation and output logs carefully, then drafted clear, concise answers in my own words for every question.
 
-**Time spent**:
+**Time spent**: 60 minutes
 
 ---
 
@@ -266,7 +267,7 @@ Committed and pushed: Feature 3: Replaced busy waiting with a counting semaphore
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+I learned that race conditions happen when multiple CPU threads try to read and change the same variable at the exact same time. When I first ran the  code the completedProcessCount gave wrong results because threads were interrupting each other . To solve this I learned how to protect critical sections using a ReentrantLock so only one thread can work at a time. I also learned to always use a finally block to release the lock safely. Finally, I discovered that using a counting Semaphore is much better than busy-waiting because it stops the CPU from wasting time checking an empty queue.
 
 ## Question 2: What was the most challenging part of this assignment?
 
@@ -274,7 +275,7 @@ Committed and pushed: Feature 3: Replaced busy waiting with a counting semaphore
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+The most challenging part for me was shutting down the CPU threads in Feature 3. After finishing all the processes the CPU threads got stuck waiting on readySemaphore.acquire(). They were waiting forever because no more processes were going into the ready queue. The program just froze and the watchdog timer gave me an error. It was hard to figure out that I needed to call readySemaphore.release() at the end to wake them up so the program could finish properly.
 
 ## Question 3: How did you overcome the challenges you faced?
 
@@ -282,7 +283,7 @@ Committed and pushed: Feature 3: Replaced busy waiting with a counting semaphore
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+I overcame these challenges by taking things step by step. First, I re-read the README file to make sure I did not miss any important details. When my code got stuck, I added System.out.println to see exactly where the CPU threads stopped. I also looked back at the Chapter 5 slides to understand how semaphores work. After doing this I tested the program after every small change I made. Running the code many times helped me find the mistakes and finally get all the green checkmarks.
 
 ## Question 4: Where can synchronization concepts be applied in real-world applications?
 
@@ -290,7 +291,7 @@ Committed and pushed: Feature 3: Replaced busy waiting with a counting semaphore
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+Synchronization is very useful in real-world apps like banking systems. If two people try to take money from the same account at the exact same time, a ReentrantLock can protect the shared balance. Another good example is booking cinema tickets online. Choosing a seat is a critical section, so a lock makes sure two people do not buy the exact same seat. Finally, we can use these concepts in a shared printer. Just like our ready queue, a semaphore can wake up the printer only when a document is ready, which stops busy waiting.
 
 ### Optional: What would you like to learn more about?
 
@@ -324,20 +325,41 @@ Committed and pushed: Feature 3: Replaced busy waiting with a counting semaphore
 
 **Your Answer:** *(3-5 sentences)*
 
-[Write your answer here.]
+In my starter run, the observed values for completed processes (8 instead of 10) and context switches were wrong because of a race condition. This happened because multiple CPUs tried to update the same shared counters without mutual exclusion. On a real machine, this exact bug can happen even without RaceWindow because the operating system can pause a thread at any millisecond to run another thread. It is very hard to detect because it happens randomly based on bad timing, so the code might work sometimes and fail other times.
 
 Verification block of the **original starter**:
 ```
-[Paste the verification block (or the exception/watchdog message) of the starter here]
+═══ VERIFICATION (expected values are computed from YOUR seed) ═══
+  Context switches (quanta executed)     expected 16       observed 12       ✘ MISMATCH
+  Completed processes                    expected 10       observed 8        ✘ MISMATCH
+  Total service time (ms)                expected 23880    observed 17133    ✘ MISMATCH
+  Busy-waiting polls (must be 0)         expected 0        observed 535      ✘ MISMATCH
+  ✘ At least one check failed (see the ✘ lines above): a race condition or busy waiting is still present.
 ```
 
 Verification block of **my final version**:
 ```
-[Paste the verification block of your final version here (all lines ✔)]
+═══ VERIFICATION (expected values are computed from YOUR seed) ═══
+  Context switches (quanta executed)     expected 16       observed 16       ✔
+  Completed processes                    expected 10       observed 10       ✔
+  Total service time (ms)                expected 23880    observed 23880    ✔
+  Busy-waiting polls (must be 0)         expected 0        observed 0        ✔
+  ✔ All shared values are consistent.
 ```
 
 **Explanation of the timeline:**
-[Explain the lost update step by step.]
+Here is how one lost update happens step by step:
+
+1- CPU-1 reads completedProcessCount = 8.
+
+2- The RaceWindow pauses CPU-1 before it can save the new value.
+
+3- CPU-2 reads the exact same value completedProcessCount = 8.
+
+4- CPU-1 wakes up adds one, and writes 9.
+
+5- CPU-2 also adds one, and writes 9.  
+Result: Two processes finished but the counter only went up by 1. One update is completely lost.
 
 ## Question 2: Critical Sections and Lock Granularity
 
@@ -347,12 +369,14 @@ Verification block of **my final version**:
 
 **Your Answer:** *(3-5 sentences)*
 
-[Write your answer here.]
+I used one lock per variable because the three counters are independent, so updating "contextSwitchCount" does not need to block "totalServiceTime". The trade-off is that it is faster even though I had to write more locks. The ready queue uses a different lock because if they shared the same lock a slow thread could cause long waiting or a deadlock. "ReentrantLock" gives mutual exclusion by letting only one CPU inside at a time, which ensures progress. However because the default lock is not fair it does not guarantee bounded waiting so one CPU might wait longer than others.
 
 | Critical section (variable / method) | Lock used | Why it needs protection |
 |---|---|---|
-| [e.g., `ReadyQueue.poll()`] | [lock name] | [reason] |
-| [...] | [...] | [...] |
+| `ReadyQueue.poll()` and `add()` | `queueLock` | To prevent two CPUs from reading or removing the same process at the same time. |
+| `SharedStats.contextSwitchCount` | `contextSwitchLock` | To prevent lost updates when multiple threads increment the counter. |
+| `SharedStats.completedProcessCount` | `completedProcessLock` | To prevent lost updates when processes finish at the same time. |
+| `SharedStats.totalServiceTime` | `totalServiceTimeLock` | To safely add the execution time without causing a race condition. |
 
 ## Question 3: Busy Waiting vs Semaphore
 
@@ -362,7 +386,7 @@ Verification block of **my final version**:
 
 **Your Answer:** *(3-5 sentences)*
 
-[Write your answer here.]
+In the starter code the CPU wastes time constantly checking an empty queue, which caused 535 busy-waiting polls in my run. My semaphore's value represents the number of available processes in the ready queue, so its initial value is 0 because the queue starts empty. Right after the initial add() calls the semaphore's value becomes 10. At the end, the last active CPU calls release(totalCPUs) to wake up the other sleeping CPUs so they can safely exit the loop. If it did not do this, the program would freeze because the blocked CPUs would wait forever in acquire() for new processes that will never come.
 
 ## Question 4: Classical Problems and Deadlock
 
@@ -373,24 +397,27 @@ Verification block of **my final version**:
 **Your Answer:** *(3-5 sentences)*
 
 **Classical problem and roles**:
-[Name the problem; who is the producer, who is the consumer?]
+This is the Producer-Consumer problem. The CPUs act as both producers (when adding processes) and consumers (when taking processes to run).
 
 **Semaphores for a bounded queue (name and initial value)**:
-[Name the three semaphores and their initial values.]
+We need three semaphores: mutex (initial value 1), empty (initial value K), and full (initial value 0).
 
 **Deadlock scenario and prevention**:
-[Describe the scenario and the necessary condition you would break.]
+A deadlock happens if a producer locks the mutex before waiting for an empty slot. We can prevent this by breaking the "Circular Wait" condition, which means we must always wait on the semaphore before locking the mutex.
 
 ## Summary
 
 **Key concepts I understood through these questions:**
-1.
-2.
-3.
+1. How to use a ReentrantLock to stop race conditions.
+
+2. Why using a semaphore is much better than busy-waiting.
+
+3. How to protect shared variables so we do not lose any data.
 
 **Concepts I need to study more:**
-1.
-2.
+1. Deadlocks.
+2. The bounded-buffer problem.
+
 
 ---
 
