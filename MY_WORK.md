@@ -32,10 +32,10 @@
 
 | Field | Your Answer |
 |-------|-------------|
-| **Full Name** | [Ahmad Albraa Alhymedy] |
+| **Full Name** | [Ahmad Albraa Alhumedy] |
 | **Student ID** | [446052673] |
 | **University Email** | 446052673@std.psau.edu.sa |
-| **GitHub Username** | [AhmadAlhymedy1] |
+| **GitHub Username** | [AhmadAlhumedy1] |
 | **Repository Link** | [https://github.com/AhmadAlhumedy1/OS-Assignment3-Ahmad-Alhumedy] |
  
 ---
@@ -325,7 +325,7 @@ Synchronization is very useful in real-world apps like banking systems. If two p
 
 **Your Answer:** *(3-5 sentences)*
 
-In my starter run, the observed values for completed processes (8 instead of 10) and context switches were wrong because of a race condition. This happened because multiple CPUs tried to update the same shared counters without mutual exclusion. On a real machine, this exact bug can happen even without RaceWindow because the operating system can pause a thread at any millisecond to run another thread. It is very hard to detect because it happens randomly based on bad timing, so the code might work sometimes and fail other times.
+In my starter run, Context switches was 12 instead of 16 (4 less), Completed processes was 8 instead of 10 (2 less), and Total service time was 17133 instead of 23880, because of race conditions. This happened because multiple CPUs tried to update the same shared counters without mutual exclusion. On a real machine, this exact bug can happen even without RaceWindow because the operating system can pause a thread at any millisecond to run another thread. It is very hard to detect because it happens randomly based on bad timing, so the code might work sometimes and fail other times.
 
 Verification block of the **original starter**:
 ```
@@ -374,9 +374,12 @@ I used one lock per variable because the three counters are independent, so upda
 | Critical section (variable / method) | Lock used | Why it needs protection |
 |---|---|---|
 | `ReadyQueue.poll()` and `add()` | `queueLock` | To prevent two CPUs from reading or removing the same process at the same time. |
+| `ReadyQueue.processOf()` | `queueLock` | It reads the map while other CPUs may change it. |
+| `ReadyQueue.snapshot()` | `queueLock` | It loops over the list, and another CPU could change the list during the loop. |
 | `SharedStats.contextSwitchCount` | `contextSwitchLock` | To prevent lost updates when multiple threads increment the counter. |
 | `SharedStats.completedProcessCount` | `completedProcessLock` | To prevent lost updates when processes finish at the same time. |
 | `SharedStats.totalServiceTime` | `totalServiceTimeLock` | To safely add the execution time without causing a race condition. |
+| The three getters in `SharedStats` | The same lock as each variable | A read in the middle of an update is not safe. |
 
 ## Question 3: Busy Waiting vs Semaphore
 
