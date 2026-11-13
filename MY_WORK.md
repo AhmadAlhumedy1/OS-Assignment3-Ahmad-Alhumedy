@@ -32,17 +32,17 @@
 
 | Field | Your Answer |
 |-------|-------------|
-| **Full Name** | [Write your full name here] |
-| **Student ID** | [Write your student ID here] |
-| **University Email** | [yourid]@std.psau.edu.sa |
-| **GitHub Username** | [your-github-username] |
-| **Repository Link** | [Paste your repository link here] |
+| **Full Name** | [Ahmad Albraa Alhymedy] |
+| **Student ID** | [446052673] |
+| **University Email** | 446052673@std.psau.edu.sa |
+| **GitHub Username** | [AhmadAlhymedy1] |
+| **Repository Link** | [https://github.com/AhmadAlhumedy1/OS-Assignment3-Ahmad-Alhumedy] |
  
 ---
 
 ## 🎥 Video Link
 
-**Video Link**: [Paste your video link here]
+**Video Link**: [https://drive.google.com/file/d/1FWc7sxzQa2rZKZBFgKgb9YT_hJE7_uDd/view?usp=sharing]
 
 > ⚠️ **WARNING:** The video must be **publicly accessible** ("Anyone with the link can view") on **Google Drive**, **YouTube (Unlisted or Public)** or any other cloud file-sharing system. A private, restricted or broken link counts as a **missing video (-1 mark)**.
 >
@@ -210,7 +210,7 @@ Committed and pushed: Feature 3: Replaced busy waiting with a counting semaphore
 
 ---
 
-### Entry 5 - [Date and Time]
+### Entry 5 - [November 12, 2026, 5 PM]
 **What I did**: Completed Part B (Reflection), Part C (Technical Answers) .
 
 **Details**: Added the verification blocks from both my original starter run and my final fixed version 
@@ -224,16 +224,16 @@ using my student ID (446052673) and explained the race conditions, lock granular
 
 ---
 
-### Entry 6 - [Optional - Date and Time]
-**What I did**:
+### Entry 6 - [November 13, 2026, 2:30 PM]
+**What I did**: Recorded the final video and uploaded it.
 
-**Details**:
+**Details**: I recorded a video explaining my code on GitHub showed the lock and semaphore implementation in VS Code and ran the program to demonstrate the correct simulation output with my student ID. I then uploaded the video to Google Drive and added the public link to the top of this document.
 
-**Challenges**:
+**Challenges**: Making sure the video stayed within the strict 2-3 minute time limit while covering all the required steps clearly.
 
-**Solution**:
+**Solution**: I prepared a brief script and practiced the walkthrough steps befor to ensure smooth transitions between GitHub and VS Code within the time limit.
 
-**Time spent**:
+**Time spent**: 45 minutes
 
 ---
 
@@ -241,13 +241,13 @@ using my student ID (446052673) and explained the race conditions, lock granular
 
 > 💡 **TIP:** Fill this in **last**, after all entries are written.
 
-**Total time spent on assignment**: [X hours]
+**Total time spent on assignment**: [7 hours]
 
-**Most challenging part**:
+**Most challenging part**: Figuring out the exact placement for the "ReentrantLock" and "Semaphore" to fix race conditions without causing a deadlock.
 
-**Most interesting learning**:
+**Most interesting learning**: Seeing how a "Semaphore" stops the CPU from wasting resources (busy waiting) by putting it to sleep.
 
-**What I would do differently next time**:
+**What I would do differently next time**: I would plan the synchronization steps and lock placements on paper before writing the code to avoid error and save time.
 
 ---
 
@@ -426,40 +426,40 @@ A deadlock happens if a producer locks the mutex before waiting for an empty slo
 > ⚠️ **WARNING:** Go through every line. Blackboard does not accept submissions after the deadline, which is **November 14, 2026**.
 
 **Repository**
-- [ ] Repository is **PUBLIC** (Settings → Danger Zone → Visibility)
-- [ ] Repository is renamed to `OS-Assignment3-YourFirstName-YourLastName`
-- [ ] GitHub account uses the university email (`@std.psau.edu.sa`)
+- [X] Repository is **PUBLIC** (Settings → Danger Zone → Visibility)
+- [X] Repository is renamed to `OS-Assignment3-YourFirstName-YourLastName`
+- [X] GitHub account uses the university email (`@std.psau.edu.sa`)
 
 **Code**
-- [ ] Student ID is set in `SchedulerSimulationSync.java` (line 304)
-- [ ] My code is based **only** on the starter of this repository (nothing copied from previous assignments)
-- [ ] Code compiles and runs with no errors, and terminates by itself (no `⛔ WATCHDOG`)
-- [ ] Feature 1 (ready queue lock), Feature 2 (statistics locks) and Feature 3 (semaphore, no busy waiting) all work
-- [ ] **The four verification lines are ✔ in 5 consecutive runs**
-- [ ] Every lock is released in a `finally` block
-- [ ] `RaceWindow`, `Config`, the verification block and the watchdog are **unchanged**
-- [ ] Each feature has clear comments
+- [X] Student ID is set in `SchedulerSimulationSync.java` (line 304)
+- [X] My code is based **only** on the starter of this repository (nothing copied from previous assignments)
+- [X] Code compiles and runs with no errors, and terminates by itself (no `⛔ WATCHDOG`)
+- [X] Feature 1 (ready queue lock), Feature 2 (statistics locks) and Feature 3 (semaphore, no busy waiting) all work
+- [X] **The four verification lines are ✔ in 5 consecutive runs**
+- [X] Every lock is released in a `finally` block
+- [X] `RaceWindow`, `Config`, the verification block and the watchdog are **unchanged**
+- [X] Each feature has clear comments
 
 **Commits**
-- [ ] **At least 4 meaningful commits, ideally 7 or more**
-- [ ] **One commit per feature**
-- [ ] Commits are spread over **different dates** (not all in the last hour)
-- [ ] Everything is **pushed** to GitHub
+- [X] **At least 4 meaningful commits, ideally 7 or more**
+- [X] **One commit per feature**
+- [X] Commits are spread over **different dates** (not all in the last hour)
+- [X] Everything is **pushed** to GitHub
 
 **This file (`MY_WORK.md`)**
-- [ ] Full name and student ID filled in at the top
-- [ ] Development log has **5+ entries** on different dates
-- [ ] Reflection: 4 questions, 5-7 sentences each
-- [ ] Technical answers: 4 questions, 3-5 sentences each, with examples from **your** output (starter output **and** final output pasted in Question 1)
-- [ ] No `[...]` placeholders left
-- [ ] No section headers deleted
+- [X] Full name and student ID filled in at the top
+- [X] Development log has **5+ entries** on different dates
+- [X] Reflection: 4 questions, 5-7 sentences each
+- [X] Technical answers: 4 questions, 3-5 sentences each, with examples from **your** output (starter output **and** final output pasted in Question 1)
+- [X] No `[...]` placeholders left
+- [X] No section headers deleted
 
 **Video**
-- [ ] 2-3 minutes long, named `StudentID_Assignment3_Demo.mp4`
-- [ ] Shows your name, ID, repository, 3 features (and your lock granularity choice), IDE execution with the verification block, one synchronization concept, and commit history
-- [ ] Link is **public** (tested in an incognito window) and pasted in the **Video Link** section above
+- [X] 2-3 minutes long, named `StudentID_Assignment3_Demo.mp4`
+- [X] Shows your name, ID, repository, 3 features (and your lock granularity choice), IDE execution with the verification block, one synchronization concept, and commit history
+- [X] Link is **public** (tested in an incognito window) and pasted in the **Video Link** section above
 
 **Blackboard**
-- [ ] Submit **only** the link to your public GitHub repository
+- [X] Submit **only** the link to your public GitHub repository
 
 > 🎯 **Good luck!** Start early, commit regularly, and make sure you can explain every line you submit.
